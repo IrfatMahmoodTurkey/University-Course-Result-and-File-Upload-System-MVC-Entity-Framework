@@ -1,0 +1,67 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "DateInPdf";
+    Layout = null;
+}
+
+<link href="~/design-all/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/design-all/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+<link href="~/design-all/css/sb-admin.min.css" rel="stylesheet" />
+<link href="~/Content/form-styles.css" rel="stylesheet" />
+
+<h2 style="text-align: center">Admit Card</h2>
+<hr />
+
+<h4 style="text-align: center">@ViewBag.DepartmentName</h4>
+<hr />
+
+<div style="text-align: center">
+    <img class="img-circle" src="@ViewBag.Image" height="100px" width="100px" />
+    <br />
+</div>
+
+<div class="form-body">
+    <label>
+        Name:
+    </label>
+    <br/>
+    <input type="text" disabled="disabled" value="@ViewBag.Name"/>
+    <br/>
+
+    <label>
+        RegNo:
+    </label>
+    <br/>
+    <input type="text"  disabled="disabled" value="@ViewBag.RegNo" />
+    <br />
+
+    <label>
+        Email:
+    </label>
+    <br/>
+    <input type="text" disabled="disabled" value="@ViewBag.Email" />
+    <br />
+</div>
+
+<hr />
+
+<h4>Courses List</h4>
+<hr />
+
+@{
+    <ul>
+        @foreach (EnrollCourseViewModel course in ViewBag.Courses)
+        {
+            <li>@course.CourseCode - @course.CourseName - ( @course.Type )</li>
+        }
+    </ul>
+}
+
+<hr />
+
+
+<p style="text-align: right">Signature of Exam Controller</p>
+
+
+

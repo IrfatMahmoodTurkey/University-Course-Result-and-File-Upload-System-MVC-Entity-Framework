@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Unassign Courses";
+    ViewBag.UnassignCourseActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-user-slash"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Unassign All Courses</li>
+</ol>
+
+<h3>Unassign All Courses</h3>
+<p>Unassign all Course from Teacher</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm("UnassignAllCoursesFromTeacher", "Teacher", FormMethod.Post, new { onsubmit = "return show_alert();" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Unassigned All Courses Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Unassign All Courses.
+            </div>
+        }
+
+        @Html.Hidden("nullData")
+        <input type="submit" value="Unassign" />
+        <br />
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    function show_alert() {
+        if (confirm("Do you want to Unassign All Courses?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

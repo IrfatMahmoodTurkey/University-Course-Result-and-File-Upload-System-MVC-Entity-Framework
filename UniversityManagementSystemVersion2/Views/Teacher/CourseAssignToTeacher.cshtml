@@ -1,0 +1,227 @@
+﻿@model UniversityManagementSystemVersion2.Models.CourseAssigned
+
+@{
+    ViewBag.Title = "Course Assign";
+    ViewBag.AssignCourseActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-clipboard-list"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Assign Course</li>
+</ol>
+
+<h3>Course Assign</h3>
+<p>Course Assign to a Teacher</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Course Assigned Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Assign Course.
+            </div>
+        }
+        else if (ViewBag.Response == 5)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Not Enough Credit Remaining to Take the Course.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Course Already Assigned.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+
+        @Html.Label("Department")
+        <br />
+        @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+
+        @Html.LabelFor(l => l.TeacherId, "Teacher")
+        <br />
+        @Html.DropDownListFor(d => d.TeacherId, new SelectList(""), "-- Select Teacher --")
+        <br />
+        @Html.ValidationMessageFor(v => v.TeacherId, null, new {@class="error-message"})
+        <br />
+
+        @Html.Label("CreditToBeTaken", "Credit to be taken")
+        <br />
+        @Html.TextBox("CreditToBeTaken", null, new { disabled = "disabled" })
+        <br />
+
+        @Html.Label("RemainingCredit", "Remaining Credit")
+        <br />
+        @Html.TextBox("RemainingCredit", null, new { disabled = "disabled" })
+        <br />
+
+        @Html.LabelFor(l => l.CourseId, "Course Code")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(""), "-- Select Course Code --")
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.Label("CourseName", "Name")
+        <br />
+        @Html.TextBox("CourseName", null, new { disabled = "disabled" })
+        <br />
+
+        @Html.Label("CourseCredit", "Course Credit")
+        <br />
+        @Html.TextBox("CourseCredit", null, new { disabled = "disabled" })
+        <br />
+
+        <input type="submit" value="Assign" />
+        <br />
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    //for load teacher by department
+
+    $(document).ready(function () {
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            var json = { departmentId: departmentId };
+
+            $("#TeacherId").empty();
+            $("#TeacherId").append('<option value="">--Select Teacher--</option>');
+            $("#CreditToBeTaken").val("");
+            $("#RemainingCredit").val("");
+            $("#CourseName").val("");
+            $("#CourseCredit").val("");
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetTeacherByDepartment", "Teacher")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#TeacherId").empty();
+                    $("#TeacherId").append('<option value="">--Select Teacher--</option>');
+                    $.each(data, function (key, value) {
+                        $("#TeacherId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    //for load courses by department
+
+    $(document).ready(function () {
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            var json = { departmentId: departmentId };
+
+            $("#CourseId").empty();
+            $("#CourseId").append('<option value="">--Select Course--</option>');
+            $("#CourseName").val("");
+            $("#CourseCredit").val("");
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCourseByDepartment", "Teacher")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#CourseId").empty();
+                    $("#CourseId").append('<option value="">--Select Course--</option>');
+                    $.each(data, function (key, value) {
+                        $("#CourseId").append('<option value=' + value.Id + '>' + value.Code + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    //get teacher info by teacher id
+    $(document).ready(function () {
+
+        $("#TeacherId").change(function () {
+            var teacherId = $("#TeacherId").val();
+            var json = { teacherId: teacherId };
+
+            $("#CreditToBeTaken").val("");
+            $("#RemainingCredit").val("");
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetTeacherInfoByTeacherId", "Teacher")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $("#CreditToBeTaken").val(data.CreditToBeTaken);
+                    $("#RemainingCredit").val(data.RemainingCredit);
+                }
+            });
+        });
+    });
+
+    //get course info by course id
+    $(document).ready(function () {
+
+        $("#CourseId").change(function () {
+            var courseId = $("#CourseId").val();
+            var json = { courseId: courseId };
+
+            $("#CourseName").val("");
+            $("#CourseCredit").val("");
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCourseInfoByCourseId", "Teacher")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $("#CourseName").val(data.Name);
+                    $("#CourseCredit").val(data.Credit);
+                }
+            });
+        });
+    });
+</script>
+

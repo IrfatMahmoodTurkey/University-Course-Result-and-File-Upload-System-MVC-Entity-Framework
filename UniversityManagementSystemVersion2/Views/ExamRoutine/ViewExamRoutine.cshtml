@@ -1,0 +1,151 @@
+﻿@{
+    ViewBag.Title = "View Exam Routine";
+    ViewBag.ActiveExamRoutines = "active";
+
+    if (ViewBag.Nav == 1)
+    {
+        Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+    }
+    else if (ViewBag.Nav == 2)
+    {
+        Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+    }
+    else if (ViewBag.Nav == 3)
+    {
+        Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+    }
+}
+
+@if (ViewBag.Nav == 1)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-clipboard-list"></i>
+            <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+        </li>
+        <li class="breadcrumb-item active">View Exam Schedule</li>
+    </ol>
+
+}
+else if (ViewBag.Nav == 2)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+        </li>
+        <li class="breadcrumb-item active">View Exam Schedule</li>
+    </ol>
+}
+else if (ViewBag.Nav == 3)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-calendar-alt"></i>
+            <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+        </li>
+        <li class="breadcrumb-item active">View Exam Schedule</li>
+    </ol>
+}
+
+<h3>View All Exam Schedules</h3>
+<p>View Exam Schedules by Department and Session</p>
+<hr />
+
+<div class="form-body">
+    @Html.Label("Department")
+    <br />
+    @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Value", "Text"))
+    <br />
+
+    @Html.Label("Session")
+    <br />
+    @Html.DropDownList("Session", new SelectList(ViewBag.Sessions, "Value", "Text"))
+    <br />
+</div>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>
+                Code
+            </td>
+            <td>
+                Title
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Schedule
+            </td>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+
+            var session = $("#Session").val();
+
+            var data = departmentId + '%' + session;
+
+            var json = { data: data };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetExamRoutine", "ExamRoutine")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#tableBody").empty();
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + value.Date + '</td><td>' + value.Schedule + '</td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var departmentId = $("#DepartmentId").val();
+
+            var session = $("#Session").val();
+
+            var data = departmentId + '%' + session;
+
+            var json = { data: data };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetExamRoutine", "ExamRoutine")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#tableBody").empty();
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + value.Date + '</td><td>' + value.Schedule + '</td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>
+

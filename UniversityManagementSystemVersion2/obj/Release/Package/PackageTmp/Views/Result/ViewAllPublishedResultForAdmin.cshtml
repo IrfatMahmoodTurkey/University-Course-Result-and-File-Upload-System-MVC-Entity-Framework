@@ -1,0 +1,58 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "All Published Result For Admin";
+    ViewBag.ViewPublishedResultActiveAdmin = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-eye"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">View Published Result</li>
+</ol>
+
+<h3>View Result For Admin</h3>
+<p>View All Published Result For Admin</p>
+<hr />
+
+<table class="table table-bordered" id="dataTable" style="width: 100%">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>SL</td>
+            <td>Student Reg No</td>
+            <td>Course Title</td>
+            <td>Attendance</td>
+            <td>Assignement</td>
+            <td>Class Test</td>
+            <td>Mid Term</td>
+            <td>Final</td>
+            <td>Point</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (ResultSheetViewModel result in ViewBag.Results)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@result.StudentRegNo</td>
+                    <td>@result.Title</td>
+                    <td>@result.Attendance</td>
+                    <td>@result.Assignment</td>
+                    <td>@result.ClassTest</td>
+                    <td>@result.MidTerm</td>
+                    <td>@result.FinalExam</td>
+                    <td>@result.Point</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

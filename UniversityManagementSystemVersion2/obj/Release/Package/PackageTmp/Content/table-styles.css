@@ -1,0 +1,23 @@
+﻿.table-style {
+            margin: auto;
+            border-collapse: collapse;
+            width: 80%;
+        }
+
+            .table-style td, .table-style th {
+                text-align: center;
+                border: 1px solid #ddd;
+                padding: 12px;
+            }
+
+        .table-style tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .table-style thead {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #2E7D32;
+            color: white;
+        }

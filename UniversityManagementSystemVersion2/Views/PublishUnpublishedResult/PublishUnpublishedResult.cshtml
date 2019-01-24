@@ -1,0 +1,77 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "Publish Unpublished Result";
+    ViewBag.ResultPublishedActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-upload"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Result Publish</li>
+</ol>
+
+<h3>Publish Result</h3>
+<p>Publish all Unpublished Result</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Unpublished Result Published Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Publish Result.
+            </div>
+        }
+
+        @Html.Hidden("noData")
+        <input type="submit" value="Publish" />
+        <br />
+    }
+</div>
+
+<hr/>
+<h3>Unpublish Result</h3>
+<p>List of Unpublished Result</p>
+<hr />
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>SL</td>
+            <td>RegNo</td>
+            <td>Code</td>
+            <td>Name</td>
+            <td>Point</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (ResultSheetViewModel result in ViewBag.Results)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@result.StudentRegNo</td>
+                    <td>@result.Code</td>
+                    <td>@result.Title</td>
+                    <td>@result.Point</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

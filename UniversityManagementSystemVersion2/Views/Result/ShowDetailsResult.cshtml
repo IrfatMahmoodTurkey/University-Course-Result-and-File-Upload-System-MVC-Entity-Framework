@@ -1,0 +1,83 @@
+﻿@model UniversityManagementSystemVersion2.Models.ViewModels.ResultSheetViewModel
+
+@{
+    ViewBag.Title = "Details Result";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<h3>Show Details Result</h3>
+<p>View Course wise details result</p>
+<hr />
+
+<div class="form-body">
+
+    @Html.DisplayNameFor(model => model.Code)
+    <br />
+    @Html.TextBoxFor(model => model.Code, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.Title)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.Title, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.Attendance)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.Attendance, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.Assignment)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.Assignment, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.ClassTest)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.ClassTest, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.MidTerm)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.MidTerm, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.FinalExam)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.FinalExam, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.Point)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.Point, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.DisplayNameFor(model => model.Session)
+    <br />
+
+
+    @Html.TextBoxFor(model => model.Session, null, new { disabled = "disabled" })
+    <br />
+
+</div>

@@ -1,0 +1,71 @@
+﻿@model UniversityManagementSystemVersion2.Models.Semester
+
+@{
+    ViewBag.Title = "Save Semester";
+    ViewBag.SaveSemesterActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-shoe-prints"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">New Semester</li>
+</ol>
+
+<h3>Save Semester</h3>
+<p>Save new Semester on server</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Semester Saved Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Save Semester.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Semester already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.SemesterName, "Semester")
+        @Html.TextBoxFor(t => t.SemesterName, null, new {placeholder="Enter Semester"})
+        @Html.ValidationMessageFor(v => v.SemesterName, null, new {@class="error-message"})
+
+        <input type="submit" value="Save" />
+
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

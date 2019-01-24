@@ -1,0 +1,51 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "All Enrolled Courses";
+    ViewBag.ActiveViewEnrollCourse = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-eye"></i>
+        <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+    </li>
+    <li class="breadcrumb-item active">View Enroll Courses</li>
+</ol>
+
+<h3>View All Enroll Courses</h3>
+<p>View all Enrolled Courses of the Student</p>
+<hr />
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>SL</td>
+            <td>Code</td>
+            <td>Name</td>
+            <td>Session</td>
+            <td>Credit</td>
+            <td>Type</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (EnrollCourseViewModel viewModel in ViewBag.EnrollCourses)
+            {
+                count++;
+
+                <tr>
+                    <td>@count</td>
+                    <td>@viewModel.CourseCode</td>
+                    <td>@viewModel.CourseName</td>
+                    <td>@viewModel.Session</td>
+                    <td>@viewModel.CourseCredit</td>
+                    <td>@viewModel.Type</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

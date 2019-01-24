@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "Unallocate Courses";
+    ViewBag.UnallocateClassActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-trash"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Unallocate Class</li>
+</ol>
+
+<h3>Unallocate Courses</h3>
+<p>Unallocate all allocated classes</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm("UnallocateCourses", "ClassroomAllocation", FormMethod.Post, new { onsubmit = "return show_alert();" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Unallocated all allocated courses.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Unallocate all allocated courses.
+            </div>
+        }
+
+        @Html.Hidden("nullData")
+        <input type="submit" value="Unallocate" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    function show_alert() {
+        if (confirm("Do you want to Unallocate All Courses?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>

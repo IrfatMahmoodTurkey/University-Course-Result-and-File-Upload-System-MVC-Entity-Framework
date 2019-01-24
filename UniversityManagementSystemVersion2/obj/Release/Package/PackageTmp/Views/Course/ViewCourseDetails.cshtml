@@ -1,0 +1,75 @@
+﻿@model UniversityManagementSystemVersion2.Models.ViewModels.CourseViewModel
+
+@{
+    ViewBag.Title = "Course Details";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-eye"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Course Details</li>
+</ol>
+
+<h3>Course Details</h3>
+<p>View course details for specific course</p>
+<hr />
+
+
+<div class="form-body">
+
+    @Html.LabelFor(model => model.Code)
+    <br />
+    @Html.TextBoxFor(model => model.Code, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(model => model.Name)
+    <br />
+    @Html.TextBoxFor(model => model.Name, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.LabelFor(model => model.Credit)
+    <br />
+    @Html.TextBoxFor(model => model.Credit, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.LabelFor(model => model.Description)
+    <br />
+    @Html.TextBoxFor(model => model.Description, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.LabelFor(model => model.DepartmentName, "Department")
+    <br />
+    @Html.TextBoxFor(model => model.DepartmentName, null, new { disabled = "disabled" })
+    <br />
+
+
+    @Html.LabelFor(model => model.SemesterName, "Semester")
+    <br />
+    @Html.TextBoxFor(model => model.SemesterName, null, new { disabled = "disabled" })
+    <br />
+
+
+
+    @Html.LabelFor(model => model.ActionBy, "Action By")
+    <br />
+    @Html.TextBoxFor(model => model.ActionBy, null, new { disabled = "disabled" })
+    <br />
+
+
+
+    @Html.LabelFor(model => model.ActionDone, "Action Done")
+    <br />
+    @Html.TextBoxFor(model => model.ActionDone, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(model => model.ActionTime, "Action Time")
+    <br />
+    @Html.TextBoxFor(model => model.ActionTime, null, new { disabled = "disabled" })
+    <br />
+</div>

@@ -1,0 +1,130 @@
+﻿@{
+    ViewBag.Title = "Download Supplementary";
+    ViewBag.ActiveSupplementaryDownload = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-file-word"></i>
+        <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+    </li>
+    <li class="breadcrumb-item active">Download Course Supplementaries</li>
+</ol>
+
+<h3>Download Supplementaries</h3>
+<p>Download Supplementaries by Course and Session</p>
+<hr />
+
+<div class="form-body">
+    @Html.Label("Session")
+    <br />
+    @Html.DropDownList("Session", new SelectList(ViewBag.Sessions, "Value", "Text"))
+    <br />
+
+    @Html.Label("Course")
+    <br />
+    @Html.DropDownList("CourseId", new SelectList(""), "-- Select Course --")
+    <br />
+</div>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>Name</td>
+            <td>Download</td>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var session = $("#Session").val();
+            var json = { session: session };
+
+            $("#CourseId").empty();
+            $("#CourseId").append('<option value="">-- Select Course-- </option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetEnrollCourses", "Supplimentary")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#CourseId").empty();
+                    $("#CourseId").append('<option value="">-- Select Course --</option>');
+                    $.each(data, function (key, value) {
+                        $("#CourseId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#CourseId").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetFilesByCourseIdAndSession", "Supplimentary")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#tableBody").empty();
+
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.Name + '</td><td><a class="link-delete" href="/Supplimentary/DownloadSupplymentaryFile?path=' + value.FileUrl + '&fileName=' + value.FileName + '">Download</a></td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetFilesByCourseIdAndSession", "Supplimentary")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#tableBody").empty();
+
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.Name + '</td><td><a class="link-delete" href="/FileUpload/ShowFile?path=' + value.FileUrl + '">Download</a></td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>

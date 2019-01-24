@@ -1,0 +1,55 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "All Courses";
+    ViewBag.ViewAllCoursesActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-eye"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">View All Courses</li>
+</ol>
+
+<h3>View All Courses</h3>
+<p>View courses saved on server</p>
+<hr/>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>SL</td>
+            <td>Code</td>
+            <td>Title</td>
+            <td>Credit</td>
+            <td>Department</td>
+            <td>Semester</td>
+            <td>Details</td>
+            <td>Update</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (CourseViewModel course in ViewBag.Courses)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@course.Code</td>
+                    <td>@course.Name</td>
+                    <td>@course.Credit</td>
+                    <td>@course.DepartmentName</td>
+                    <td>@course.SemesterName</td>
+                    <td>@Html.ActionLink("View Details", "ViewCourseDetails", new {id = @course.Id})</td>
+                    <td>@Html.ActionLink("UpdateCourse", "UpdateCourse", new { id = @course.Id })</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

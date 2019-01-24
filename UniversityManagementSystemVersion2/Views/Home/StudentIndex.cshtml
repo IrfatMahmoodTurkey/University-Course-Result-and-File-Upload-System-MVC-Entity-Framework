@@ -1,0 +1,275 @@
+﻿@using UniversityManagementSystemVersion2.Models
+@using UniversityManagementSystemVersion2.Models.ViewModels
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.StudentHomeActive = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-tachometer-alt"></i>
+        <a href="@Url.Action("StudentIndex", "Home")">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Overview</li>
+</ol>
+
+<div class="row">
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #D81B60 !important">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfEnrollCourses</div> Total Enrolled Courses
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllEnrolledCourses","Student")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #8E24AA !important">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfRegularCourses</div> Total Regular Courses
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllEnrolledCourses","Student")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #1E88E5 !important">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-recycle"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfRecourseCourses</div> Total Recourses
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllEnrolledCourses","Student")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+
+    @{
+        if (ViewBag.AverageGPA <= 1.0m)
+        {
+            <div class="col-xl-3 col-sm-6 mb-3">
+                <div class="card text-white o-hidden h-100" style="background-color: #E53935 !important">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fas fa-times-circle"></i>
+                        </div>
+                        <div class="mr-5">
+                            <div style="font-size: 30px">@ViewBag.AverageGPA</div> Average GPA
+                        </div>
+                    </div>
+                    <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ShowPublishedResult","Result")">
+                        <span class="float-left">View Details</span>
+                        <span class="float-right">
+                            <i class="fas fa-angle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="col-xl-3 col-sm-6 mb-3">
+                <div class="card text-white o-hidden h-100" style="background-color: #4CAF50 !important">
+                    <div class="card-body">
+                        <div class="card-body-icon">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="mr-5">
+                            <div style="font-size: 30px">@ViewBag.AverageGPA</div> Average GPA
+                        </div>
+                    </div>
+                    <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ShowPublishedResult","Result")">
+                        <span class="float-left">View Details</span>
+                        <span class="float-right">
+                            <i class="fas fa-angle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Result Chart
+        </div>
+        <div class="card-body">
+            <canvas id="myBarChart" width="50" height="30"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            Pass and Failed
+        </div>
+        <div class="card-body">
+            <canvas id="myPieChart" width="50" height="30"></canvas>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-exclamation-circle"></i>
+        Notice Chart
+    </div>
+    <div class="card-body pre-scrollable">
+
+        @{
+            foreach (Notice notice in ViewBag.Notice)
+            {
+                <div class="card mb-3">
+                    <div style="text-align: center; margin: 10px; font-size: 25px">@notice.NoticeDescription</div>
+
+                    <div class="card-footer small text-muted">Uploaded: @notice.ActionBy Date: @notice.DateTime</div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<hr />
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Result (A+, A, A-)
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-striped" width="100%">
+                <thead style="background-color: #004D40; color: white">
+                    <tr>
+                        <td>Course Code</td>
+                        <td>Course Title</td>
+                        <td>Grade</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (ResultSheetViewModel results in ViewBag.ShortResults)
+                        {
+                            <tr>
+                                <td>@results.Code</td>
+                                <td>@results.Title</td>
+
+                                @if (results.Point == 4.0m)
+                                {
+                                    <td>A+</td>
+                                }
+                                else if (results.Point == 3.5m)
+                                {
+                                    <td>A</td>
+                                }
+                                else if (results.Point == 3.0m)
+                                {
+                                    <td>A-</td>
+                                }
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+                <script src="~/design-all/vendor/chart.js/Chart.min.js"></script>
+
+                <script>
+                    // Set new default font family and font color to mimic Bootstrap's default styling
+                    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+                    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+                    // Bar Chart Example
+                    var ctx = document.getElementById("myBarChart");
+                    var myLineChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: {
+                            labels: ["F", "C", "B", "A-", "A", "A+"],
+                            datasets: [{
+                                label: "Courses",
+                                backgroundColor: "#C2185B",
+                                borderColor: "rgba(2,117,216,1)",
+                                data: [@ViewBag.Zero, @ViewBag.One, @ViewBag.Two, @ViewBag.Three, @ViewBag.ThreeFive, @ViewBag.Four],
+                            }],
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    time: {
+                                        unit: 'month'
+                                    },
+                                    gridLines: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 6
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: 20,
+                                        maxTicksLimit: 5
+                                    },
+                                    gridLines: {
+                                        display: true
+                                    }
+                                }],
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    });
+
+
+                    var ctx = document.getElementById("myPieChart");
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ["Passed", "Failed"],
+                            datasets: [{
+                                data: [@ViewBag.Pass, @ViewBag.Fail],
+                                backgroundColor: ['#28a745', '#dc3545'],
+                            }],
+                        },
+                    });
+                </script>

@@ -1,0 +1,384 @@
+﻿@using UniversityManagementSystemVersion2.Models
+
+@{
+    ViewBag.Title = "Dashboard";
+    ViewBag.AdminHomeActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-tachometer-alt"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Dashboard</a>
+    </li>
+    <li class="breadcrumb-item active">Overview</li>
+</ol>
+
+<div class="row">
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #C2185B !important;">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfStudents</div> Total Students
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllStudents","Student")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #0288D1 !important">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfTeachers</div> Total Teachers
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllTeacher","Teacher")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #F57C00 !important">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-book"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfCourses</div> Total Courses
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllCourses","Course")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-sm-6 mb-3">
+        <div class="card text-white o-hidden h-100" style="background-color: #7B1FA2 !important">
+            <div class="card-body">
+                <div class="card-body-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <div class="mr-5">
+                    <div style="font-size: 30px">@ViewBag.NoOfDepartments</div> Total Departments
+                </div>
+            </div>
+            <a class="card-footer text-white clearfix small z-1" href="@Url.Action("ViewAllDepartments","Department")">
+                <span class="float-left">View Details</span>
+                <span class="float-right">
+                    <i class="fas fa-angle-right"></i>
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card-header">
+            <i class="fas fa-chart-area"></i>
+            Regestered Student On All Departments
+        </div>
+        <div class="card-body">
+            <canvas id="myAreaChart" width="50" height="30"></canvas>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card-header">
+            <i class="fas fa-chart-pie"></i>
+            Department Wise Student
+        </div>
+        <div class="card-body">
+            @Html.DropDownList("departmentId", new SelectList(ViewBag.Departments, "Value", "Text"))
+            <br/>
+            <canvas id="myPieChart" width="50" height="30"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-chart-area"></i>
+        Course Wise Result
+    </div>
+    <div class="card-body">
+        @Html.DropDownList("courseId", new SelectList(ViewBag.Courses, "Value", "Text"))
+        <br/>
+        <canvas id="myAreaChart2" width="100%" height="30"></canvas>
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-toggle-on"></i>
+        Enroll State
+    </div>
+    <div class="card-body" style="text-align: center; font-size: 30px">
+        @ViewBag.EnrollState
+    </div>
+</div>
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-exclamation-circle"></i>
+        Notice Chart
+    </div>
+    <div class="card-body pre-scrollable">
+
+        @{
+            foreach (Notice notice in ViewBag.Notice)
+            {
+                <div class="card mb-3">
+                    <div style="text-align: center; margin: 10px; font-size: 25px">@notice.NoticeDescription</div>
+
+                    <div class="card-footer small text-muted">Uploaded: @notice.ActionBy Date: @notice.DateTime</div>
+                </div>
+            }
+        }
+
+    </div>
+</div>
+
+<script src="~/design-all/vendor/chart.js/Chart.min.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+    Chart.defaults.global.defaultFontColor = '#292b2c';
+
+    // Area Chart
+    var ctx = document.getElementById("myAreaChart");
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["@ViewBag.YearFour", "@ViewBag.YearThree", "@ViewBag.YearTwo", "@ViewBag.YearOne", "@ViewBag.YearRec"],
+            datasets: [{
+                label: "Total Student Number",
+                lineTension: 0.3,
+                backgroundColor: "rgba(2,117,216,0.2)",
+                borderColor: "rgba(2,117,216,1)",
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(2,117,216,1)",
+                pointBorderColor: "rgba(255,255,255,0.8)",
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                pointHitRadius: 50,
+                pointBorderWidth: 2,
+                data: [@ViewBag.LastFourYear,@ViewBag.LastThreeYear,@ViewBag.LastTwoYear,@ViewBag.LastOneYear,@ViewBag.RecentYear],
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 7
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 2000,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        color: "rgba(0, 0, 0, .125)",
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+
+    // pie chart
+    var ctx = document.getElementById("myPieChart");
+    var myPieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ["@ViewBag.ChTwoRec", "@ViewBag.ChTwoPrec"],
+            datasets: [{
+                data: [@ViewBag.StudentByDeptThis, @ViewBag.StudentByDeptPrev],
+                backgroundColor: ['#D81B60', '#8E24AA'],
+            }],
+        },
+    });
+
+    $(document).ready(function () {
+
+        $("#departmentId").change(function () {
+            var departmentId = $("#departmentId").val();
+            var json = { departmentId: departmentId };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudentByDepartmentYear", "Home")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (value) {
+                    // Area Chart
+                    // pie chart
+                    var ctx = document.getElementById("myPieChart");
+                    var myPieChart = new Chart(ctx, {
+                        type: 'pie',
+                        data: {
+                            labels: ["@ViewBag.ChTwoRec", "@ViewBag.ChTwoPrec"],
+                            datasets: [{
+                                data: [value.StudentRecYear, value.StudentPrevYear],
+                                backgroundColor: ['#D81B60', '#8E24AA'],
+                            }],
+                        },
+                    });
+
+                }
+            });
+        });
+    });
+
+    // Area Chart 2
+    var ctx = document.getElementById("myAreaChart2");
+    var myLineChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: ["F", "C", "B", "A-", "A", "A+"],
+            datasets: [{
+                label: "Total Student Number",
+                lineTension: 0.3,
+                backgroundColor: "rgba(2,117,216,0.2)",
+                borderColor: "rgba(2,117,216,1)",
+                pointRadius: 5,
+                pointBackgroundColor: "rgba(2,117,216,1)",
+                pointBorderColor: "rgba(255,255,255,0.8)",
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                pointHitRadius: 50,
+                pointBorderWidth: 2,
+                data: [@ViewBag.Zero,@ViewBag.One,@ViewBag.Two,@ViewBag.Three,@ViewBag.ThreeFive,@ViewBag.Four],
+            }],
+        },
+        options: {
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 7
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        max: 2000,
+                        maxTicksLimit: 5
+                    },
+                    gridLines: {
+                        color: "rgba(0, 0, 0, .125)",
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            }
+        }
+    });
+
+    $(document).ready(function () {
+
+        $("#courseId").change(function () {
+            var courseId = $("#courseId").val();
+            var json = { courseId: courseId };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudentByCourseAdmin", "Home")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (value) {
+                    // Area Chart 2
+                    var ctx = document.getElementById("myAreaChart2");
+                    var myLineChart = new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: ["F", "C", "B", "A-", "A", "A+"],
+                            datasets: [{
+                                label: "Total Student Number",
+                                lineTension: 0.3,
+                                backgroundColor: "rgba(2,117,216,0.2)",
+                                borderColor: "rgba(2,117,216,1)",
+                                pointRadius: 5,
+                                pointBackgroundColor: "rgba(2,117,216,1)",
+                                pointBorderColor: "rgba(255,255,255,0.8)",
+                                pointHoverRadius: 5,
+                                pointHoverBackgroundColor: "rgba(2,117,216,1)",
+                                pointHitRadius: 50,
+                                pointBorderWidth: 2,
+                                data: [value.Zero, value.One, value.Two, value.Three, value.ThreeFive,value.Four],
+                            }],
+                        },
+                        options: {
+                            scales: {
+                                xAxes: [{
+                                    time: {
+                                        unit: 'date'
+                                    },
+                                    gridLines: {
+                                        display: false
+                                    },
+                                    ticks: {
+                                        maxTicksLimit: 7
+                                    }
+                                }],
+                                yAxes: [{
+                                    ticks: {
+                                        min: 0,
+                                        max: 2000,
+                                        maxTicksLimit: 5
+                                    },
+                                    gridLines: {
+                                        color: "rgba(0, 0, 0, .125)",
+                                    }
+                                }],
+                            },
+                            legend: {
+                                display: false
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

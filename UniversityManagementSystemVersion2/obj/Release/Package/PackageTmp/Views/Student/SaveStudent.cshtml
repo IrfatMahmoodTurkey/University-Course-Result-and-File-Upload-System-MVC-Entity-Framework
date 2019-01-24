@@ -1,0 +1,120 @@
+﻿@model UniversityManagementSystemVersion2.Models.Student
+
+@{
+    ViewBag.Title = "Save Student";
+    ViewBag.SaveStudentActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<link href="~/Content/bootstrap-datePicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datePicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-user-graduate"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Register Student</li>
+</ol>
+
+<h3>Save Student</h3>
+<p>Save a new Student entry</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Student Saved Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Save Student.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Student Email already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(t => t.Name)
+        <br />
+        @Html.TextBoxFor(t => t.Name, null, new { placeholder = "Enter Student Name" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Name, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(t => t.Email)
+        <br />
+        @Html.TextBoxFor(t => t.Email, null, new { placeholder = "Enter Student Email" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Email, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(t => t.ContactNo, "Contact No")
+        <br />
+        @Html.TextBoxFor(t => t.ContactNo, null, new { placeholder = "Enter Student Contact No" })
+        <br />
+        @Html.ValidationMessageFor(v => v.ContactNo, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(t => t.Date)
+        <br />
+        @Html.TextBoxFor(t => t.Date, null, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), autocomplete = "off" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Date, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(t => t.Address)
+        <br />
+        @Html.TextBoxFor(t => t.Address, null, new { placeholder = "Enter Student Address" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Address, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(t => t.DepartmentId, "Department")
+        <br />
+        @Html.DropDownListFor(d => d.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.DepartmentId, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Register" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/bootstrap-datePicker/bootstrap-datepicker.min.js"></script>
+<script>
+    $('#Date').datepicker({
+        format: "dd/mm/yyyy",
+        daysOfWeekHighlighted: "5",
+        calendarWeeks: true,
+        todayHighlight: true
+    });
+</script>

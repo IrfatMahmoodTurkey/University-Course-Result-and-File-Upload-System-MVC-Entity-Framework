@@ -1,0 +1,52 @@
+﻿@using UniversityManagementSystemVersion2.Models
+
+@{
+    ViewBag.Title = "AllSemesters";
+    ViewBag.ViewAllSemestersActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-table"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">All Semesters</li>
+</ol>
+
+<h3>View All Semesters</h3>
+<p>View All Saved Semesters</p>
+<hr />
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>SL</td>
+            <td>Semester</td>
+            <td>Action By</td>
+            <td>Action Done</td>
+            <td>Action Time</td>
+        </tr>
+    </thead>
+
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (Semester semester in ViewBag.Semesters)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@semester.SemesterName</td>
+                    <td>@semester.ActionBy</td>
+                    <td>@semester.ActionDone</td>
+                    <td>@semester.ActionTime</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+

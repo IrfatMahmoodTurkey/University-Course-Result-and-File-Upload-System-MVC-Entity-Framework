@@ -1,0 +1,49 @@
+﻿@using UniversityManagementSystemVersion2.Models
+
+@{
+    ViewBag.Title = "AllRooms";
+    ViewBag.ViewRoomsActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-table"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">All Rooms</li>
+</ol>
+
+<h3>View All Rooms</h3>
+<p>View All Saved Roooms</p>
+<hr/>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>SL</td>
+            <td>Room No</td>
+            <td>Action By</td>
+            <td>Action Done</td>
+            <td>Action Time</td>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        int count = 0;
+        
+        foreach (Room room in ViewBag.Rooms)
+        {
+            count++;
+
+            <tr>
+                <td>@count</td>
+                <td>@room.RoomNo</td>
+                <td>@room.ActionBy</td>
+                <td>@room.ActionDone</td>
+                <td>@room.ActionTime</td>
+            </tr>
+        }
+    }
+    </tbody>
+</table>

@@ -1,0 +1,89 @@
+﻿@model UniversityManagementSystemVersion2.Models.Supplimentary
+
+@{
+    ViewBag.Title = "Upload Supplementary";
+    ViewBag.ActiveTeacherSupplementary = "active";
+    Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+}
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-file-word"></i>
+        <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+    </li>
+    <li class="breadcrumb-item active">Upload Course Supplementaries</li>
+</ol>
+
+<h3>Upload Supplementaries</h3>
+<p>Upload Course Supplementaries</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm("UploadSupplymentary", "Supplimentary", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Supplementary Uploaded Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Upload Supplementary.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Browse Files for Upload.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.CourseId, "Course")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(ViewBag.Courses, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Session, "Session")
+        <br />
+        @Html.DropDownListFor(d => d.Session, new SelectList(ViewBag.Sessions, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.Session, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Name, "Name")
+        <br />
+        @Html.TextBoxFor(d => d.Name, null, new { placeholder = "Enter Supplementary Name" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Name, null, new { @class = "error-message" })
+        <br />
+
+        <input type="file" name="file" />
+
+        <input type="submit" value="Upload" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

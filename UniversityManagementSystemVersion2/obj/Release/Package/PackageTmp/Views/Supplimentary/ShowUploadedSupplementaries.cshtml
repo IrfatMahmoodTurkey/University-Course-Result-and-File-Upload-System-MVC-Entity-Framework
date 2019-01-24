@@ -1,0 +1,65 @@
+﻿@{
+    ViewBag.Title = "Uploaded Supplementaries";
+    ViewBag.ActiveTeacherViewSupplementary = "active";
+    Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-eye"></i>
+        <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+    </li>
+    <li class="breadcrumb-item active">Show Uploaded Supplementaries</li>
+</ol>
+
+<h3>Show Uploaded Supplementaries</h3>
+<p>View Uploaded Supplementaries by Taken Courses</p>
+<hr />
+
+<div class="form-body">
+    @Html.DropDownList("CourseId", new SelectList(ViewBag.Courses, "Value", "Text"))
+</div>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>Name</td>
+            <td>Download</td>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#CourseId").change(function () {
+            var courseId = $("#CourseId").val();
+
+            var json1 = { courseId: courseId };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetFilesByCourseId", "Supplimentary")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#tableBody").empty();
+
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.Name + '</td><td><a class="link-delete" href="/Supplimentary/DownloadSupplymentaryFile?path=' + value.FileUrl + '&fileName=' + value.FileName + '">Download</a></td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>
+

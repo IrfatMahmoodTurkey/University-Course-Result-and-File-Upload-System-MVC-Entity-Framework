@@ -1,0 +1,74 @@
+﻿@model UniversityManagementSystemVersion2.Models.ViewModels.AdmitViewModel
+
+@{
+    ViewBag.Title = "Make Admid";
+    ViewBag.MakeAdmitActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-address-card"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Make Admit</li>
+</ol>
+
+<h3>Make Admit</h3>
+<p>Make Admit Pdf For Examination</p>
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        @Html.DropDownListFor(d=>d.ActionTypeTime, new SelectList(ViewBag.GetTimeType, "Value", "Text"))
+        <br/>
+        @Html.ValidationMessageFor(v=>v.ActionTypeTime, null, new {@class="error-message"})
+
+        @Html.DropDownListFor(d=>d.StudentId, new SelectList(""), "-- Select Student --")
+        <br/>
+        @Html.ValidationMessageFor(v => v.StudentId, null, new { @class = "error-message" })
+        <br/>
+
+        <input type="submit" value="Make PDF" />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#ActionTypeTime").change(function () {
+            var sessionDate = $("#ActionTypeTime").val();
+            var json = { sessionDate: sessionDate };
+
+            $("#StudentId").empty();
+            $("#StudentId").append('<option value="">-- Select Student --</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetEnrolledStudent", "Admit")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+
+                    $.each(data, function (key, value) {
+                        $("#StudentId").append('<option value=' + value.Id + '>' + value.RegNo + '</option>');
+                        
+                    });
+
+                }
+            });
+        });
+    });
+
+</script>

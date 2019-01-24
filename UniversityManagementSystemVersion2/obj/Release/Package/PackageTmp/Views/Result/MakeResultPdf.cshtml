@@ -1,0 +1,94 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "Result Pdf";
+    Layout = null;
+}
+
+<link href="~/design-all/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/design-all/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+<link href="~/design-all/css/sb-admin.min.css" rel="stylesheet" />
+<link href="~/Content/form-styles.css" rel="stylesheet" />
+
+<h3 style="text-align: center">Result Sheet</h3>
+<hr/>
+
+<h4 style="text-align: center">@ViewBag.Department</h4>
+<hr/>
+
+<div class="form-body">
+    <label>Name:</label>
+    <br/>
+    <input type="text" disabled="disabled" value="@ViewBag.Name"/>
+    <br/>
+
+    <label>RegNo:</label>
+    <br/>
+    <input type="text" disabled="disabled" value="@ViewBag.RegNo"/>
+    <br/>
+
+    <label>Email:</label>
+    <br/>
+    <input type="text" disabled="disabled" value="@ViewBag.Email"/>
+    <br/>
+</div>
+<hr/>
+
+<h2 style="text-align: center">Result</h2>
+<hr/>
+<table class="table table-striped">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>SL</td>
+            <td>Code</td>
+            <td>Name</td>
+            <td>Point</td>
+            <td>Grade</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (ResultSheetViewModel result in ViewBag.Results)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@result.Code</td>
+                    <td>@result.Title</td>
+                    <td>@result.Point</td>
+                    @{
+                if (result.Point == 4.00m)
+                {
+                    <td>A+</td>
+                }
+                else if (result.Point == 3.50m)
+                {
+                    <td>A</td>
+                }
+                else if (result.Point == 3.00m)
+                {
+                    <td>A-</td>
+                }
+                else if (result.Point == 2.00m)
+                {
+                    <td>B</td>
+                }
+                else if (result.Point == 1.00m)
+                {
+                    <td>C</td>
+                }
+                else if (result.Point == 0.00m)
+                {
+                    <td>F</td>
+                }
+                    }
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+
+

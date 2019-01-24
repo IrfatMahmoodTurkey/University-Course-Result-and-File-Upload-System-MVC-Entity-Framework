@@ -1,0 +1,158 @@
+﻿@model UniversityManagementSystemVersion2.Models.StudentResult
+
+@{
+    ViewBag.Title = "Upload Final Exam Result";
+    ViewBag.ActiveTeacherFinalExamNo = "active";
+    Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-poll"></i>
+        <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+    </li>
+    <li class="breadcrumb-item active">Upload Final Exam Marks</li>
+</ol>
+
+<h3>Upload Last Fifty Number</h3>
+<p>Upload Last Fifty Number</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Last Fifty Number Uploaded Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Upload Last Fifty Number.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Check First Fifty Number is Exists or Not.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.CourseId, "Course")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(ViewBag.Courses, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new {@class="error-message"})
+        <br />
+
+        @Html.LabelFor(l => l.Session, "Session")
+        <br />
+        @Html.DropDownListFor(d => d.Session, new SelectList(ViewBag.Session, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.Session, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.StudentId, "Student")
+        <br />
+        @Html.DropDownListFor(d => d.StudentId, new SelectList(""), "-- Select Student -- ")
+        <br />
+        @Html.ValidationMessageFor(v => v.StudentId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.FinalExam, "Final Exam No")
+        <br />
+        @Html.TextBoxFor(d => d.FinalExam, null, new { @Value = "0.0" })
+        <br />
+        @Html.ValidationMessageFor(v => v.FinalExam, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Upload" />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#CourseId").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#StudentId").empty();
+            $("#StudentId").append('<option value="">--Select Student--</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudentWithRetake", "Result")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#StudentId").empty();
+                    $("#StudentId").append('<option value="">--Select Student--</option>');
+
+                    $.each(data, function (key, value) {
+                        $("#StudentId").append('<option value=' + value.Id + '>' + value.Name + '-' + value.RegNo + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#StudentId").empty();
+            $("#StudentId").append('<option value="">--Select Student--</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudentWithRetake", "Result")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#StudentId").empty();
+                    $("#StudentId").append('<option value="">--Select Student--</option>');
+
+                    $.each(data, function (key, value) {
+                        $("#StudentId").append('<option value=' + value.Id + '>' + value.Name + '-' + value.RegNo + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+</script>

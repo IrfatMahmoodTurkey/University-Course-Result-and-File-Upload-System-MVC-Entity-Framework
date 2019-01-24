@@ -1,0 +1,127 @@
+﻿@{
+    ViewBag.Title = "Show Assignments And Reports";
+    ViewBag.ActiveTeacherFiles = "active";
+    Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-file-pdf"></i>
+        <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+    </li>
+    <li class="breadcrumb-item active">Show Assignments and Reports</li>
+</ol>
+
+<h3>Show Assigments and Reports</h3>
+<p>View and Show Assigments and Reports Uploaded by Students</p>
+<hr />
+
+<div class="form-body">
+    @Html.Label("Course")
+    <br />
+    @Html.DropDownList("CourseId", new SelectList(ViewBag.Courses, "Value", "Text"))
+    <br />
+
+    @Html.Label("Session")
+    <br />
+    @Html.DropDownList("Session", new SelectList(ViewBag.Session, "Value", "Text"))
+    <br />
+</div>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>
+                Student Reg No
+            </td>
+            <td>
+                Type
+            </td>
+            <td>
+                Assignment No
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Uploaded Date
+            </td>
+            <td>
+                Upload By
+            </td>
+            <td>
+                View
+            </td>
+            <td>
+                Download
+            </td>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#CourseId").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetFilesByCourseIdAndSession", "FileUpload")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#tableBody").empty();
+
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.StudentRegNo + '</td><td>' + value.Type + '</td><td>' + value.ReportName + '</td><td>' + value.Date + '</td><td>' + value.UploadDate + '</td><td>' + value.UploadedBy + '</td><td><a target="_blank" href="/FileUpload/ShowFile?path=' + value.Url + '">View</a></td><td><a href="/FileUpload/DownloadFiles?path=' + value.Url + '">Download</a></td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#tableBody").empty();
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetFilesByCourseIdAndSession", "FileUpload")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#tableBody").empty();
+
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.StudentRegNo + '</td><td>' + value.Type + '</td><td>' + value.ReportName + '</td><td>' + value.Date + '</td><td>' + value.UploadDate + '</td><td>' + value.UploadedBy + '</td><td><a class="link-delete" target="_blank" href="/FileUpload/ShowFile?path=' + value.Url + '">View</a></td><td><a class="link-delete" href="/FileUpload/DownloadFiles?path=' + value.Url + '">Download</a></td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+
+</script>
+

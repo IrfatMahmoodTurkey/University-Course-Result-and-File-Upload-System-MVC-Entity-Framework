@@ -1,0 +1,176 @@
+﻿@model UniversityManagementSystemVersion2.Models.ClassroomAllocate
+
+@{
+    ViewBag.Title = "Class Allocation";
+    ViewBag.ClassAllocateActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-clock"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Class Allocation</li>
+</ol>
+
+<h3>Classroom Allocation</h3>
+<p>Allocate classroom by Course, Department and Room</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Classroom Allocated Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Invalid Time!</strong> From Time is less than To Time.
+            </div>
+        }
+        else if (ViewBag.Response == 3)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill up all fileds correctly.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Exception occured during allocation.
+            </div>
+        }
+        else if (ViewBag.Response == 5)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Overlap!</strong> Ovarlapping with time by same room and day.
+            </div>
+        }
+        else if (ViewBag.Response == 10)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Overlap!</strong> Overlap with course in same day.
+            </div>
+        }
+        else if (ViewBag.Response == 11)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Invalid Time!</strong> Time difference is less than 3 hours.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.DepartmentId, "Department")
+        <br />
+        @Html.DropDownListFor(d => d.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.DepartmentId, null, new {@class="error-message"})
+        <br />
+
+        @Html.LabelFor(l => l.CourseId, "Course")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(ViewBag.Courses, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.RoomId, "Room")
+        <br />
+        @Html.DropDownListFor(d => d.RoomId, new SelectList(ViewBag.Rooms, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.RoomId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Day, "Day")
+        <br />
+        @Html.DropDownListFor(d => d.Day, new SelectList(ViewBag.Days, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.Day, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.FromTime, "From Time")
+        <br />
+        @Html.TextBoxFor(d => d.FromTime)
+        <br />
+        @Html.ValidationMessageFor(v => v.FromTime, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.ToTime, "To Time")
+        <br />
+        @Html.TextBoxFor(d => d.ToTime)
+        <br />
+        @Html.ValidationMessageFor(v => v.ToTime, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Allocate" />
+
+    }
+</div>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/bootstrap-timepicker.min.js"></script>
+<script>
+    //for load courses by department
+
+    $(document).ready(function () {
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            var json = { departmentId: departmentId };
+
+            $("#CourseId").empty();
+            $("#CourseId").append('<option value="">--Select Course--</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCoursesByDepartment", "ClassroomAllocation")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#CourseId").empty();
+                    $("#CourseId").append('<option value="">--Select Course--</option>');
+                    $.each(data, function (key, value) {
+                        $("#CourseId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>
+
+<script>
+    $('#FromTime').timepicker({
+        template: true,
+        showInputs: false,
+        minuteStep: 5
+    });
+
+    $('#ToTime').timepicker({
+        template: true,
+        showInputs: false,
+        minuteStep: 5
+    });
+</script>
+

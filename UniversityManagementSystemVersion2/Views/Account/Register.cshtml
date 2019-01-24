@@ -1,0 +1,54 @@
+﻿@model UniversityManagementSystemVersion2.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+    ViewBag.AdminRegisterActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-users"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Register New</li>
+</ol>
+
+
+<h2>@ViewBag.Title.</h2>
+<p>Register a new Account</p>
+<hr />
+
+<div class="form-body">
+
+    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+        <h4>Create a new account. For: @ViewBag.HiddenState</h4>
+        <hr />
+        @Html.ValidationSummary()
+
+        @Html.Hidden("hiddenState", null, new { @Value = @ViewBag.HiddenState })
+
+        @Html.LabelFor(m => m.UserName, "RegNO")
+        <br/>
+        @Html.TextBoxFor(m => m.UserName, null, new { placeholder = "Enter RegNO" })
+        <br />
+
+        @Html.LabelFor(m => m.Password, "Password")
+        <br/>
+        @Html.TextBoxFor(m => m.Password, null, new { placeholder = "Enter Password" })
+        <br />
+
+        @Html.LabelFor(m => m.ConfirmPassword, "Confirm Password")
+        <br/>
+        @Html.TextBoxFor(m => m.ConfirmPassword, null, new { placeholder = "Re Enter Password" })
+        <br />
+
+        <input type="submit" value="Register" />
+
+    }
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

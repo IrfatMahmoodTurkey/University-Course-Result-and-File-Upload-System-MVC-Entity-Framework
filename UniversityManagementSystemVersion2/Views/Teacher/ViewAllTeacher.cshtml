@@ -1,0 +1,58 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "All Teacher";
+    ViewBag.ViewTeacherActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-list-alt"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">View Teachers</li>
+</ol>
+
+<h3>View All Teachers</h3>
+<p>View All Teacher of all department</p>
+<hr />
+
+<table class="table table-bordered" id="dataTable" style="width: 100%">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>SL</td>
+            <td>RegNo</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Department</td>
+            <td>Profile Picture</td>
+            <td>View</td>
+            <td>Update</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (TeacherViewModel teacher in ViewBag.Teachers)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@teacher.RegNo</td>
+                    <td>@teacher.Name</td>
+                    <td>@teacher.Email</td>
+                    <td>@teacher.DepartmentName</td>
+                    <td align="center"><img style="border-radius: 50%" src="@teacher.ProfilePicture" height="80px" width="80px" /></td>
+                    <td>@Html.ActionLink("View Details", "ViewTeacherDetailsById", new { id = @teacher.Id })</td>
+                    <td>@Html.ActionLink("Update", "UpdateTeacherInformations", new { id = @teacher.Id })</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<hr />
+
+

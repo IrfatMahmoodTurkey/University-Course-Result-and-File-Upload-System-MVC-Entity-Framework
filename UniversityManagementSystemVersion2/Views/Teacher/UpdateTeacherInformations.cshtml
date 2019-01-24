@@ -1,0 +1,123 @@
+﻿@model UniversityManagementSystemVersion2.Models.Teacher
+
+@{
+    ViewBag.Title = "Update Teacher Informations";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-list-alt"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">View Teachers</li>
+</ol>
+
+<h3>Update Teacher Information</h3>
+<p>Update Existing Teacher Information</p>
+
+<div style="text-align: center">
+    <img style="border-radius: 50%" src="@ViewBag.ProfilePicture" height="200px" width="200px" />
+    <br />
+</div>
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Teacher Updated Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Update Teacher.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Email Already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.HiddenFor(h => h.Id)
+        @Html.HiddenFor(h => h.RegNo)
+        @Html.HiddenFor(h => h.ProfilePicture)
+
+        @Html.LabelFor(l => l.Name)
+        <br />
+        @Html.TextBoxFor(t => t.Name, null, new { placeholder = "Enter Teacher New Name" })
+        <br />
+        @Html.ValidationMessageFor(t => t.Name, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Address)
+        <br />
+        @Html.TextBoxFor(t => t.Address, null, new { placeholder = "Enter Teacher New Address" })
+        <br />
+        @Html.ValidationMessageFor(t => t.Address, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Email)
+        <br />
+        @Html.TextBoxFor(t => t.Email, null, new { placeholder = "Enter Teacher New Email" })
+        <br />
+        @Html.ValidationMessageFor(t => t.Email, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.ContactNo)
+        <br />
+        @Html.TextBoxFor(t => t.ContactNo, null, new { placeholder = "Enter Teacher New Contact No" })
+        <br />
+        @Html.ValidationMessageFor(t => t.ContactNo, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.DesignationId, "Designation")
+        <br />
+        @Html.DropDownListFor(d => d.DesignationId, new SelectList(ViewBag.Designations, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(t => t.DesignationId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.DepartmentId, "Department")
+        <br />
+        @Html.DropDownListFor(d => d.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(t => t.DepartmentId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.CreditToBeTaken, "Credit To Be Taken")
+        <br />
+        @Html.TextBoxFor(t => t.CreditToBeTaken, null, new { placeholder = "Enter Teacher New Credit Taken" })
+        <br />
+        @Html.ValidationMessageFor(t => t.CreditToBeTaken, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Save" />
+
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

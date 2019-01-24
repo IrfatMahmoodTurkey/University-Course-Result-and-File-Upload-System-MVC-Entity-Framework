@@ -1,0 +1,74 @@
+﻿@model UniversityManagementSystemVersion2.Models.Designation
+
+@{
+    ViewBag.Title = "Save Designation";
+    ViewBag.SaveDesignationActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-briefcase"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">New Designation</li>
+</ol>
+
+<h3>Save Designation</h3>
+<p>Save new Designation on server</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Designation Saved Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Designation Name Already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Save Designation.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.DesignationName, "Designation")
+        <br />
+        @Html.TextBoxFor(t => t.DesignationName, null, new { placeholder = "Enter Designation" })
+        <br />
+        @Html.ValidationMessageFor(v => v.DesignationName, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Save" />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

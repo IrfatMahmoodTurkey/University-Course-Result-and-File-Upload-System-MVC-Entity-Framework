@@ -1,0 +1,64 @@
+﻿@model UniversityManagementSystemVersion2.Models.ViewModels.TeacherViewModel
+
+@{
+    ViewBag.Title = "Teacher Details";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-list-alt"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">View Teachers</li>
+</ol>
+
+<h3>View Details</h3>
+<p>View Details Teacher Information</p>
+
+<div style="text-align: center">
+    <img style="border-radius: 50%" src="@ViewBag.ProfilePicture" height="200px" width="200px" />
+    <br />
+</div>
+
+<div class="form-body">
+    @Html.LabelFor(l => l.RegNo, "RegNo")
+    <br />
+    @Html.TextBoxFor(t => t.RegNo, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Name, "Name")
+    <br />
+    @Html.TextBoxFor(t => t.Name, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Address, "Address")
+    <br />
+    @Html.TextBoxFor(t => t.Address, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Email, "Email")
+    <br />
+    @Html.TextBoxFor(t => t.Email, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.ContactNo, "Contact No")
+    <br />
+    @Html.TextBoxFor(t => t.ContactNo, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.DepartmentName, "Department")
+    <br />
+    @Html.TextBoxFor(t => t.DepartmentName, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.DesignationName, "Designation")
+    <br />
+    @Html.TextBoxFor(t => t.DesignationName, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.CreditToBeTaken, "Credit to be taken")
+    <br />
+    @Html.TextBoxFor(t => t.CreditToBeTaken, null, new { disabled = "disabled" })
+    <br />
+</div>

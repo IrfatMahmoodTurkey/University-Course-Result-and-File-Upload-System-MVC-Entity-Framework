@@ -1,0 +1,66 @@
+﻿@model UniversityManagementSystemVersion2.Models.Notice
+@{
+    ViewBag.Title = "Add Notice";
+    ViewBag.NoticeActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-exclamation-circle"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Add Notice</li>
+</ol>
+
+<h3>Upload Notice</h3>
+<p>Upload Notice which will shown in Student and Teacher Dashboard</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Notice Uploaded Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Upload Notice.
+            </div>
+        }
+        else if (ViewBag.Response == 3)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.NoticeDescription)
+        <br />
+        @Html.TextBoxFor(t => t.NoticeDescription, null, new { placeholder = "Enter Notice Description" })
+        <br />
+        @Html.ValidationMessageFor(v => v.NoticeDescription, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Submit" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

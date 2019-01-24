@@ -1,0 +1,182 @@
+﻿@model UniversityManagementSystemVersion2.Models.ExamRoutine
+
+@{
+    ViewBag.Title = "Upload Exam Routine";
+    ViewBag.UploadRoutineActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<link href="~/Content/bootstrap-datePicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datePicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-timepicker.min.css" rel="stylesheet" />
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-calendar-check"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Upload Exam Routine</li>
+</ol>
+
+<h3>Upload Exam Schedule</h3>
+<p>Upload upcoming Exam Schedule on Server</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Course Already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 3)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Same Department Course is Exists Given Date.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Upload Exam Schedule.
+            </div>
+        }
+        else if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Exam Schedule Uploaded Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Time is Invalid.
+            </div>
+        }
+        else if (ViewBag.Response == 5)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.DepartmentId, "Department")
+        <br />
+        @Html.DropDownListFor(d => d.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.DepartmentId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.CourseId, "Course")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(""), "-- Select Course --")
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Session, "Session")
+        <br />
+        @Html.DropDownListFor(d => d.Session, new SelectList(ViewBag.Sessions, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.Session, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Date, "Date")
+        <br />
+        @Html.TextBoxFor(d => d.Date, null, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), autocomplete = "off" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Date, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.FromTime, "From Time")
+        <br />
+        @Html.TextBoxFor(d => d.FromTime)
+        <br />
+        @Html.ValidationMessageFor(v => v.FromTime, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.ToTime, "To Time")
+        <br />
+        @Html.TextBoxFor(d => d.ToTime)
+        <br />
+        @Html.ValidationMessageFor(v => v.ToTime, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Upload" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/bootstrap-datePicker/bootstrap-datepicker.min.js"></script>
+<script src="~/Scripts/bootstrap-timepicker.min.js"></script>
+
+<script>
+    $('#Date').datepicker({
+        format: "dd/mm/yyyy",
+        daysOfWeekHighlighted: "5",
+        calendarWeeks: true,
+        todayHighlight: true
+    });
+
+    $('#FromTime').timepicker({
+        template: true,
+        showInputs: false,
+        minuteStep: 5
+    });
+
+    $('#ToTime').timepicker({
+        template: true,
+        showInputs: false,
+        minuteStep: 5
+    });
+</script>
+
+
+<script>
+    //for load courses by department
+
+    $(document).ready(function () {
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            var json = { departmentId: departmentId };
+
+            $("#CourseId").empty();
+            $("#CourseId").append('<option value="">--Select Course--</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCoursesByDepartment", "ExamRoutine")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#CourseId").empty();
+                    $("#CourseId").append('<option value="">--Select Course--</option>');
+                    $.each(data, function (key, value) {
+                        $("#CourseId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>
+

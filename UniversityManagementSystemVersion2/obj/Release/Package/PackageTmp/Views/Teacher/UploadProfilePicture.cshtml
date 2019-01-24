@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Profile Picture";
+    ViewBag.ActiveTeacherProfilePic = "active";
+    Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-camera"></i>
+        <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+    </li>
+    <li class="breadcrumb-item active">Profile Picture</li>
+</ol>
+
+<h3>Upload Profile Picture</h3>
+<p>Upload New Teacher Profile Picture</p>
+
+<div style="text-align: center">
+    <img style="border-radius: 50%" src="@ViewBag.ProfilePicture" height="200px" width="200px" />
+    <br />
+</div>
+
+<div class="form-body">
+    @using (Html.BeginForm("UploadProfilePicture", "Teacher", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Uploaded Profile Picture Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Upload Profile Picture.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-warning alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Same!</strong> Remains Same Profile Picture.
+            </div>
+        }
+        
+        <input type="file" name="profilePictureFile" />
+        <br />
+        <input type="submit" value="Update Profile Picture" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

@@ -1,0 +1,308 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - University Course And Result System</title>
+    <link rel="icon" href="~/favicon.ico" />
+
+    <link href="~/design-all/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/design-all/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/design-all/css/sb-admin.min.css" rel="stylesheet" />
+    <link href="~/Content/form-styles.css" rel="stylesheet" />
+    <link href="~/design-all/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
+
+</head>
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top" style="background-color: #004D40 !important; ">
+        <a class="navbar-brand mr-1" href="@Url.Action("AdminIndex", "Home")">University Course & Result System</a>
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- Navbar Search -->
+        <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        </div>
+        <!-- Navbar -->
+        @Html.Partial("_LoginPartial")
+    </nav>
+
+
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav" style="background-color: #263238 !important; ">
+            <li class="nav-item @ViewBag.AdminHomeActive">
+                <a class="nav-link" href="@Url.Action("AdminIndex", "Home")">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.AdminRegisterActive">
+                <a class="nav-link" href="@Url.Action("Register","Account")">
+                    <i class="fas fa-users"></i>
+                    <span>Create Account</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ManageActive">
+                <a class="nav-link" href="@Url.Action("Manage", "Account")">
+                    <i class="fas fa-key"></i>
+                    <span>Change Password</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveStudentActive">
+                <a class="nav-link" href="@Url.Action("SaveStudent", "Student")">
+                    <i class="fas fa-user-graduate"></i>
+                    <span>Register Student</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewStudentActive">
+                <a class="nav-link" href="@Url.Action("ViewAllStudents", "Student")">
+                    <i class="fas fa-table"></i>
+                    <span>View Students</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveTeacherActive">
+                <a class="nav-link" href="@Url.Action("SaveTeacher", "Teacher")">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Register Teacher</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewTeacherActive">
+                <a class="nav-link" href="@Url.Action("ViewAllTeacher", "Teacher")">
+                    <i class="fas fa-list-alt"></i>
+                    <span>View Teachers</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.AssignCourseActive">
+                <a class="nav-link" href="@Url.Action("CourseAssignToTeacher", "Teacher")">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Assign Course</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.UnassignCourseActive">
+                <a class="nav-link" href="@Url.Action("UnassignAllCoursesFromTeacher", "Teacher")">
+                    <i class="fas fa-user-slash"></i>
+                    <span>Unassign All Course</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveCourseActive">
+                <a class="nav-link" href="@Url.Action("SaveCourse", "Course")">
+                    <i class="fas fa-book"></i>
+                    <span>Save New Course</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewAllCoursesActive">
+                <a class="nav-link" href="@Url.Action("ViewAllCourses", "Course")">
+                    <i class="fas fa-eye"></i>
+                    <span>View Courses</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveCourseAssigned">
+                <a class="nav-link" href="@Url.Action("ViewCoursesWithAssigned", "Course")">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Courses Assigned</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ClassAllocateActive">
+                <a class="nav-link" href="@Url.Action("ClassRoomAllocation", "ClassroomAllocation")">
+                    <i class="fas fa-clock"></i>
+                    <span>Class Allocate</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveClassSchedules">
+                <a class="nav-link" href="@Url.Action("ViewClassScheduleByDepartmentId", "ClassroomAllocation")">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Class Schedule</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.UnallocateClassActive">
+                <a class="nav-link" href="@Url.Action("UnallocateCourses", "ClassroomAllocation")">
+                    <i class="fas fa-trash"></i>
+                    <span>Unallocate Classes</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.UploadRoutineActive">
+                <a class="nav-link" href="@Url.Action("UploadRoutine", "ExamRoutine")">
+                    <i class="fas fa-calendar-check"></i>
+                    <span>Exam Schedule</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.DeactiveExamRoutineActive">
+                <a class="nav-link" href="@Url.Action("DeactivateExamSchedule", "ExamRoutine")">
+                    <i class="fas fa-trash"></i>
+                    <span>Deactive Exam Schedule</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveExamRoutines">
+                <a class="nav-link" href="@Url.Action("ViewExamRoutine", "ExamRoutine")">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>View Exam Schedule</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.MakeAdmitActive">
+                <a class="nav-link" href="@Url.Action("MakeAdmid", "Admit")">
+                    <i class="fas fa-address-card"></i>
+                    <span>Make Admit</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.EnrollStateActive">
+                <a class="nav-link" href="@Url.Action("ChangeState", "EnrollState")">
+                    <i class="fas fa-toggle-on"></i>
+                    <span>Enroll State</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.NoticeActive">
+                <a class="nav-link" href="@Url.Action("AddNotice", "Notice")">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <span>Add Notice</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ResultPublishedActive">
+                <a class="nav-link" href="@Url.Action("PublishUnpublishedResult", "PublishUnpublishedResult")">
+                    <i class="fas fa-upload"></i>
+                    <span>Result Publish</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewPublishedResultActiveAdmin">
+                <a class="nav-link" href="@Url.Action("ViewAllPublishedResultForAdmin", "Result")">
+                    <i class="fas fa-eye"></i>
+                    <span>View Published Result</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewAllFilesActive">
+                <a class="nav-link" href="@Url.Action("ViewAllFiles", "FileUpload")">
+                    <i class="fas fa-file-word"></i>
+                    <span>View Files</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.DeactiveFilesActive">
+                <a class="nav-link" href="@Url.Action("DeactiveFiles", "FileUpload")">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Deactive Files</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.DeactiveSupplementaryActive">
+                <a class="nav-link" href="@Url.Action("DeactiveSupplimentary", "Supplimentary")">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Deactive Supplementaries</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveDepartmentActive">
+                <a class="nav-link" href="@Url.Action("SaveDepartment", "Department")">
+                    <i class="fas fa-building"></i>
+                    <span>New Department</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewAllDepartmentsActive">
+                <a class="nav-link" href="@Url.Action("ViewAllDepartments", "Department")">
+                    <i class="fas fa-table"></i>
+                    <span>All Departments</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveDesignationActive">
+                <a class="nav-link" href="@Url.Action("SaveDesignation", "Designation")">
+                    <i class="fas fa-briefcase"></i>
+                    <span>New Designation</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewAllDesignationActive">
+                <a class="nav-link" href="@Url.Action("ViewAllDesignations", "Designation")">
+                    <i class="fas fa-table"></i>
+                    <span>All Designations</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveRoomActive">
+                <a class="nav-link" href="@Url.Action("SaveRoom", "Room")">
+                    <i class="fas fa-door-open"></i>
+                    <span>New Room</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewRoomsActive">
+                <a class="nav-link" href="@Url.Action("ViewAllRooms", "Room")">
+                    <i class="fas fa-table"></i>
+                    <span>View Rooms</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.SaveSemesterActive">
+                <a class="nav-link" href="@Url.Action("SaveSemester", "Semester")">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span>New Semester</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ViewAllSemestersActive">
+                <a class="nav-link" href="@Url.Action("ViewAllSemesters", "Semester")">
+                    <i class="fas fa-table"></i>
+                    <span>View Semesters</span>
+                </a>
+            </li>
+        </ul>
+        <div id="content-wrapper">
+            <div class="container-fluid">
+
+                @RenderBody()
+
+            </div>
+
+            <hr />
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © IrfatMahmoodTurkey - @DateTime.Now.Year</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/design-all/js/sb-admin.min.js"></script>
+    <script src="~/design-all/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/design-all/vendor/datatables/dataTables.bootstrap4.js"></script>
+    <script src="~/design-all/js/demo/datatables-demo.js"></script>
+</body>
+</html>
+

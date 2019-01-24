@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Deactive Files";
+    ViewBag.DeactiveFilesActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-trash-alt"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Deactive Files</li>
+</ol>
+
+<h3>Deactivate Files</h3>
+<p>Deactivate All Uploaded files (Assignment, Report files etc)</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm("DeactiveFiles", "FileUpload", FormMethod.Post, new { onsubmit = "return show_alert();" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Files Deactivated Succssfully.
+            </div>
+        }
+        else if(ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Deactivate Files.
+            </div>
+        }
+
+        @Html.Hidden("nullData")
+        <input type="submit" value="Deactivate" />
+        <br />
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    function show_alert() {
+        if (confirm("Do you want to Deactivate All Assignments and Report files?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

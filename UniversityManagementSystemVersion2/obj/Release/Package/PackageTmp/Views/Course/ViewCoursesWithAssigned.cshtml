@@ -1,0 +1,102 @@
+﻿@{
+    ViewBag.Title = "Courses Assigned";
+    ViewBag.ActiveCourseAssigned = "active";
+
+    if (ViewBag.Nav == 1)
+    {
+        Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+    }
+    else if (ViewBag.Nav == 2)
+    {
+        Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+    }
+    else if (ViewBag.Nav == 3)
+    {
+        Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+    }
+}
+
+@if (ViewBag.Nav == 1)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+        </li>
+        <li class="breadcrumb-item active">Course Assigned</li>
+    </ol>
+}
+else if (ViewBag.Nav == 2)
+{
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+        </li>
+        <li class="breadcrumb-item active">Course Assigned</li>
+    </ol>
+}
+else if (ViewBag.Nav == 3)
+{
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-chalkboard-teacher"></i>
+            <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+        </li>
+        <li class="breadcrumb-item active">Course Assigned</li>
+    </ol>
+}
+
+<h3>View Courses with Assigned</h3>
+<p>View courses and assigned Teacher Name</p>
+<hr />
+
+<div class="form-body">
+    @Html.DropDownList("DepartmentId", new SelectList(ViewBag.Departments, "Value", "Text"))
+</div>
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>Code</td>
+            <td>Name/Title</td>
+            <td>Semester</td>
+            <td>Assigned</td>
+        </tr>
+    </thead>
+    <tbody id="tableBody"></tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    //for load course statics by department
+
+    $(document).ready(function () {
+
+        $("#DepartmentId").change(function () {
+            var departmentId = $("#DepartmentId").val();
+            var json = { departmentId: departmentId };
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetCourseStaticsByDepartment", "Course")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#tableBody").empty();
+
+                    $.each(data, function (key, value) {
+                        $("#tableBody").append('<tr><td>' + value.Code + '</td><td>' + value.Name + '</td><td>' + value.Semester + '</td><td>' + value.AssignTo + '</td></tr>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>
+

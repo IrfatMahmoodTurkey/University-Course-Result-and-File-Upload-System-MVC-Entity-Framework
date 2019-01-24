@@ -1,0 +1,117 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+@model UniversityManagementSystemVersion2.Models.Teacher
+
+@{
+    ViewBag.Title = "Save Teacher";
+    ViewBag.SaveTeacherActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Register Teacher</li>
+</ol>
+
+<h3>Save Teacher</h3>
+<p>Save new Teacher on server</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Teacher Saved Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Save Teacher.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Email Already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.Name)
+        <br />
+        @Html.TextBoxFor(t => t.Name, null, new { placeholder = "Enter Teacher Name" })
+        <br />
+        @Html.ValidationMessageFor(t => t.Name, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Address)
+        <br />
+        @Html.TextBoxFor(t => t.Address, null, new { placeholder = "Enter Teacher Address" })
+        <br />
+        @Html.ValidationMessageFor(t => t.Address, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Email)
+        <br />
+        @Html.TextBoxFor(t => t.Email, null, new { placeholder = "Enter Teacher Email" })
+        <br />
+        @Html.ValidationMessageFor(t => t.Email, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.ContactNo)
+        <br />
+        @Html.TextBoxFor(t => t.ContactNo, null, new { placeholder = "Enter Teacher Contact No" })
+        <br />
+        @Html.ValidationMessageFor(t => t.ContactNo, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.DesignationId, "Designation")
+        <br />
+        @Html.DropDownListFor(d => d.DesignationId, new SelectList(ViewBag.Designations, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(t => t.DesignationId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.DepartmentId, "Department")
+        <br />
+        @Html.DropDownListFor(d => d.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(t => t.DepartmentId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.CreditToBeTaken, "Credit To Be Taken")
+        <br />
+        @Html.TextBoxFor(t => t.CreditToBeTaken, null, new { placeholder = "Enter Credit to be taken" })
+        <br />
+        @Html.ValidationMessageFor(t => t.CreditToBeTaken, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Save" />
+
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

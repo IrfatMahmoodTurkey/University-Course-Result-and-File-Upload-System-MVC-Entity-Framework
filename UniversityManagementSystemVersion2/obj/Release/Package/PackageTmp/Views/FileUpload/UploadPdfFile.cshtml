@@ -1,0 +1,159 @@
+﻿@model UniversityManagementSystemVersion2.Models.AssignmentOrReport
+
+@{
+    ViewBag.Title = "Upload Assignments or Reports";
+    ViewBag.ActiveUploadPdf = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<link href="~/Content/bootstrap-datePicker/bootstrap-datepicker.min.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datePicker/bootstrap-datepicker3.min.css" rel="stylesheet" />
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-file-pdf"></i>
+        <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+    </li>
+    <li class="breadcrumb-item active">Upload Reports or Assignments</li>
+</ol>
+
+<h3>Upload Assignements or Reports</h3>
+<p>Upload your Assignments or Report by Session and Course</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm("UploadPdfFile", "FileUpload", FormMethod.Post, new { id = "attachment", enctype = "multipart/form-data", encoding = "multipart/form-data" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> File Uploaded Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Upload.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> File Format must be in PDF.
+            </div>
+        }
+        else if (ViewBag.Response == 3)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Browse Files for Upload.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.Session, "Session")
+        <br />
+        @Html.DropDownListFor(d => d.Session, new SelectList(ViewBag.Sessions, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.Session, null, new {@class="error-message"})
+        <br />
+
+        @Html.LabelFor(l => l.CourseId, "Course")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(""), "-- Select Course --")
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.FileType, "File Type")
+        <br />
+        <select name="FileType">
+            <option value="">-- Select File Type --</option>
+            <option value="Report">Report</option>
+            <option value="Assignment">Assignment</option>
+        </select>
+        <br />
+        @Html.ValidationMessageFor(v => v.FileType, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Name, "Name")
+        <br />
+        @Html.TextBoxFor(d => d.Name, null, new {placeholder="Enter Assignment or Report Name"})
+        <br />
+        @Html.ValidationMessageFor(v => v.Name, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Date, "Date")
+        <br />
+        @Html.TextBoxFor(d => d.Date, null, new { @Value = DateTime.Now.ToString("dd/MM/yyyy"), autocomplete = "off" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Date, null, new { @class = "error-message" })
+        <br />
+
+        <input type="file" name="file" value="Browse" />
+        <br />
+
+        <input type="submit" value="Submit" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+<script src="~/Scripts/bootstrap-datePicker/bootstrap-datepicker.min.js"></script>
+
+<script>
+    $('#Date').datepicker({
+        format: "dd/mm/yyyy",
+        daysOfWeekHighlighted: "5",
+        calendarWeeks: true,
+        todayHighlight: true
+    });
+</script>
+
+<script>
+    //for load teacher by department
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var session = $("#Session").val();
+            var json = { session: session };
+
+            $("#CourseId").empty();
+            $("#CourseId").append('<option value="">-- Select Course-- </option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetEnrollCourses", "FileUpload")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json),
+                success: function (data) {
+                    $("#CourseId").empty();
+                    $("#CourseId").append('<option value="">-- Select Course --</option>');
+                    $.each(data, function (key, value) {
+                        $("#CourseId").append('<option value=' + value.Id + '>' + value.Name + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+</script>
+

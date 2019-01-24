@@ -1,0 +1,75 @@
+﻿@model UniversityManagementSystemVersion2.Models.Department
+
+@{
+    ViewBag.Title = "Save Department";
+    ViewBag.SaveDepartmentActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-building"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">New Department</li>
+</ol>
+
+<h3>Save Department</h3>
+<p>Save new Department Name with Code in server</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Department Saved Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Department Name or Code Already Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Save Department.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill Up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.Code)
+        @Html.TextBoxFor(t => t.Code, null, new {placeholder = "Enter Department Code"})
+        @Html.ValidationMessageFor(v => v.Code, null, new {@class="error-message"})
+        <br/>
+        
+        @Html.LabelFor(l => l.Name)
+        @Html.TextBoxFor(t => t.Name, null, new { placeholder = "Enter Department Name" })
+        @Html.ValidationMessageFor(v => v.Name, null, new { @class = "error-message" })
+        <br/>
+        
+        <input type="submit" value="Save" />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

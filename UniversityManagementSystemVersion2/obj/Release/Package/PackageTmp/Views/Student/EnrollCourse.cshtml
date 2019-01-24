@@ -1,0 +1,81 @@
+﻿@using UniversityManagementSystemVersion2.Models
+@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "Enroll Course";
+    ViewBag.ActiveEnrollCourse = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-edit"></i>
+        <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+    </li>
+    <li class="breadcrumb-item active">Enroll Course</li>
+</ol>
+
+<h3>Enroll Courses</h3>
+<p>Enroll Course with Regular, Retake and Recourse</p>
+<hr />
+
+@using (Html.BeginForm("EnrollCourse", "Student", FormMethod.Post)){
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+    <tr>
+        <td>Code</td>
+        <td>Title</td>
+        <td>Credit</td>
+        <td>Type</td>
+        <td>Select</td>
+        <td>Message</td>
+    </tr>
+    </thead>
+    <tbody>
+        @{
+            if (ViewBag.Courses != null)
+            {
+                int count = 0;
+
+                foreach (CourseViewModel course in ViewBag.Courses)
+                {
+                    <tr>
+                        <td>
+                            @course.Code
+                            @Html.HiddenFor(modelItem => course.Id)
+                        </td>
+                        <td>
+                            @course.Name
+                        </td>
+                        <td>
+                            @course.Credit
+                        </td>
+                        <td>
+                            <select name="courseType">
+                                <option value="Regular">Regular</option>
+                                <option value="Retake">Retake</option>
+                                <option value="Recourse">Recourse</option>
+                            </select>
+                        </td>
+                        <td>
+                            <input type="checkbox" name="selectedIndex" value="@count"/>
+                        </td>
+                        <td>
+                            @course.Message
+                        </td>
+                    </tr>
+            
+                    count++;
+                }
+            }
+
+            
+        }
+    </tbody>
+</table>
+<hr/>
+    <div class="form-body">
+        <input type="submit" value="Enroll" />
+    </div>
+}
+

@@ -1,0 +1,151 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewBag.Title - University Course And Result System</title>
+    <link rel="icon" href="~/favicon.ico" />
+
+    <link href="~/design-all/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/design-all/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/design-all/css/sb-admin.min.css" rel="stylesheet" />
+    <link href="~/Content/form-styles.css" rel="stylesheet" />
+    <link href="~/Content/table-styles.css" rel="stylesheet" />
+
+</head>
+<body>
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top" style="background-color: #004D40 !important; ">
+        <a class="navbar-brand mr-1" href="@Url.Action("TeacherIndex", "Home")">University Course & Result System</a>
+        <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+            <i class="fas fa-bars"></i>
+        </button>
+        <!-- Navbar Search -->
+        <div class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        </div>
+        <!-- Navbar -->
+        @Html.Partial("_LoginPartial")
+    </nav>
+
+
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="sidebar navbar-nav" style="background-color: #263238 !important; ">
+            <li class="nav-item @ViewBag.DashboardActiveTeacher">
+                <a class="nav-link" href="@Url.Action("TeacherIndex", "Home")">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.TeacherInformationActive">
+                <a class="nav-link" href="@Url.Action("ViewInformation","Teacher")">
+                    <i class="fas fa-user-alt"></i>
+                    <span>Your Information</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ManageActive">
+                <a class="nav-link" href="@Url.Action("Manage", "Account")">
+                    <i class="fas fa-key"></i>
+                    <span>Change Password</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveTeacherProfilePic">
+                <a class="nav-link" href="@Url.Action("UploadProfilePicture", "Teacher")">
+                    <i class="fas fa-camera"></i>
+                    <span>Profile Picture</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveCourseAssigned">
+                <a class="nav-link" href="@Url.Action("ViewCoursesWithAssigned", "Course")">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <span>Course with Assigned</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveTeacherFiles">
+                <a class="nav-link" href="@Url.Action("ShowAssignmentsAndReports", "FileUpload")">
+                    <i class="fas fa-file-pdf"></i>
+                    <span>Reports or Assignments</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveTeacherSupplementary">
+                <a class="nav-link" href="@Url.Action("UploadSupplymentary", "Supplimentary")">
+                    <i class="fas fa-file-word"></i>
+                    <span>Supplementaries</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveTeacherViewSupplementary">
+                <a class="nav-link" href="@Url.Action("ShowUploadedSupplementaries", "Supplimentary")">
+                    <i class="fas fa-eye"></i>
+                    <span>View Supplimentaries</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveTeacherFirstFifty">
+                <a class="nav-link" href="@Url.Action("UploadFirstFifty", "Result")">
+                    <i class="fas fa-poll"></i>
+                    <span>First Fifty Result</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveTeacherFinalExamNo">
+                <a class="nav-link" href="@Url.Action("UploadFinalExamResult", "Result")">
+                    <i class="fas fa-poll"></i>
+                    <span>Final Exam No</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveExamRoutines">
+                <a class="nav-link" href="@Url.Action("ViewExamRoutine", "ExamRoutine")">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Exam Routine</span>
+                </a>
+            </li>
+
+            <li class="nav-item @ViewBag.ActiveClassSchedules">
+                <a class="nav-link" href="@Url.Action("ViewClassScheduleByDepartmentId","ClassroomAllocation")">
+                    <i class="fas fa-clock"></i>
+                    <span>Class Schedule</span>
+                </a>
+            </li>
+        </ul>
+        <div id="content-wrapper">
+            <div class="container-fluid">
+
+                @RenderBody()
+
+            </div>
+
+            <hr />
+            <!-- /.container-fluid -->
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © IrfatMahmoodTurkey - @DateTime.Now.Year</span>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <!-- /.content-wrapper -->
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/design-all/js/sb-admin.min.js"></script>
+</body>
+</html>
+

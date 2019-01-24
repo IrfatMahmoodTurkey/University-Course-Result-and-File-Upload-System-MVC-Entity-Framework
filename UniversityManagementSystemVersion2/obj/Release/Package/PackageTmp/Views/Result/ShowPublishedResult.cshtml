@@ -1,0 +1,87 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "Show Result";
+    ViewBag.ActiveShowPublishedResults = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-poll"></i>
+        <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+    </li>
+    <li class="breadcrumb-item active">Show Published Result</li>
+</ol>
+
+<h3>View Result</h3>
+<p>View All Published Result</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        @Html.Hidden("noData")
+
+        <input type="submit" value="Make PDF" />
+        <br />
+    }
+</div>
+<hr />
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40; color: white;">
+        <tr>
+            <td>SL</td>
+            <td>Code</td>
+            <td>Name</td>
+            <td>Point</td>
+            <td>Grade</td>
+            <td>Details</td>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            int count = 0;
+
+            foreach (ResultSheetViewModel result in ViewBag.Results)
+            {
+                count++;
+                <tr>
+                    <td>@count</td>
+                    <td>@result.Code</td>
+                    <td>@result.Title</td>
+                    <td>@result.Point</td>
+                    @{
+                if (result.Point == 4.00m)
+                {
+                    <td>A+</td>
+                }
+                else if (result.Point == 3.50m)
+                {
+                    <td>A</td>
+                }
+                else if (result.Point == 3.00m)
+                {
+                    <td>A-</td>
+                }
+                else if (result.Point == 2.00m)
+                {
+                    <td>B</td>
+                }
+                else if (result.Point == 1.00m)
+                {
+                    <td>C</td>
+                }
+                else if (result.Point == 0.00m)
+                {
+                    <td>F</td>
+                }
+                    }
+                    <td>@Html.ActionLink("View Details", "ShowDetailsResult", new { id = result.Id })</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+

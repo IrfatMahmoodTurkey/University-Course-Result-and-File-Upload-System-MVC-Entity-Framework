@@ -1,0 +1,72 @@
+﻿@using UniversityManagementSystemVersion2.Models.ViewModels
+
+@{
+    ViewBag.Title = "All Files";
+    ViewBag.ViewAllFilesActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-file-word"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Register New</li>
+</ol>
+
+<h3>Show All Assigments and Reports</h3>
+<p>View all Uploaded Assigments and Reports Uploaded by Students</p>
+<hr />
+
+<table class="table table-striped">
+    <thead style="background-color: #004D40 !important; color: white">
+        <tr>
+            <td>
+                Student Reg No
+            </td>
+            <td>
+                Type
+            </td>
+            <td>
+                Assignment No
+            </td>
+            <td>
+                Date
+            </td>
+            <td>
+                Uploaded Date
+            </td>
+            <td>
+                Upload By
+            </td>
+            <td>
+                View
+            </td>
+            <td>
+                Download
+            </td>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @{
+            foreach (AssignmentAndReportViewModel assignmentAndReportViewModel in ViewBag.Files)
+            {
+                <tr>
+                    <td>@assignmentAndReportViewModel.StudentRegNo</td>
+                    <td>@assignmentAndReportViewModel.Type</td>
+                    <td>@assignmentAndReportViewModel.ReportName</td>
+                    <td>@assignmentAndReportViewModel.Date</td>
+                    <td>@assignmentAndReportViewModel.UploadDate</td>
+                    <td>@assignmentAndReportViewModel.UploadedBy</td>
+                    <td>@Html.ActionLink("View", "ShowFile", new { path = @assignmentAndReportViewModel.Url })</td>
+                    <td>@Html.ActionLink("Download", "DownloadFiles", new { path = @assignmentAndReportViewModel.Url })</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

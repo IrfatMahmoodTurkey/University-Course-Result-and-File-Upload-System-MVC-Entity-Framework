@@ -1,0 +1,94 @@
+﻿@using UniversityManagementSystemVersion2.Models;
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Manage Account";
+    ViewBag.ManageActive = "active";
+    Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+
+    if (ViewBag.LayoutType == 1)
+    {
+        Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+    }
+    else if (ViewBag.LayoutType == 2)
+    {
+        Layout = "~/Views/Shared/Student_Master_Page.cshtml";
+    }
+    else if (ViewBag.LayoutType == 3)
+    {
+        Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+    }
+}
+
+<style>
+    .password-textbox {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+        .password-textbox:focus {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            border-color: #008080;
+        }
+</style>
+
+@if (ViewBag.LayoutType == 1)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-key"></i>
+            <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+        </li>
+        <li class="breadcrumb-item active">Register New</li>
+    </ol>
+}
+else if (ViewBag.LayoutType == 2)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-key"></i>
+            <a href="@Url.Action("StudentIndex", "Home")">Student</a>
+        </li>
+        <li class="breadcrumb-item active">Change Password</li>
+    </ol>
+}
+else if (ViewBag.LayoutType == 3)
+{
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <i class="fas fa-key"></i>
+            <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+        </li>
+        <li class="breadcrumb-item active">Register New</li>
+    </ol>
+}
+
+
+<h3>@ViewBag.Title.</h3>
+<p>Manage Your Account</p>
+<hr />
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+
+@if (ViewBag.HasLocalPassword)
+{
+    @Html.Partial("_ChangePasswordPartial")
+}
+else
+{
+    @Html.Partial("_SetPasswordPartial")
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

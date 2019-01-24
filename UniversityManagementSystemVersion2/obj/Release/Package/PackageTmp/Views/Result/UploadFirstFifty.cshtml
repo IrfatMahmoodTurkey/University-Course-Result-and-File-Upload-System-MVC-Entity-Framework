@@ -1,0 +1,188 @@
+﻿@model UniversityManagementSystemVersion2.Models.StudentResult
+
+@{
+    ViewBag.Title = "Upload First Fifty";
+    ViewBag.ActiveTeacherFirstFifty = "active";
+    Layout = "~/Views/Shared/Teacher_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-poll"></i>
+        <a href="@Url.Action("TeacherIndex", "Home")">Teacher</a>
+    </li>
+    <li class="breadcrumb-item active">Upload First Fifty Result</li>
+</ol>
+
+<h3>Upload First Fifty Number</h3>
+<p>Upload First Fifty Number for Retake and Recourse taken Students</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Successfully Uploaded First Fifty Number.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong>Failed to Upload First Fifty Number.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong>Updated Previous Uploaded Result
+            </div>
+        }
+        else if (ViewBag.Response == 3)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong>Failed to Update First Fifty Number.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong>Fill up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.CourseId, "Course")
+        <br />
+        @Html.DropDownListFor(d => d.CourseId, new SelectList(ViewBag.Courses, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.CourseId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Session, "Session")
+        <br />
+        @Html.DropDownListFor(d => d.Session, new SelectList(ViewBag.Session, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.Session, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.StudentId, "Student")
+        <br />
+        @Html.DropDownListFor(d => d.StudentId, new SelectList(""), "-- Select Student -- ")
+        <br />
+        @Html.ValidationMessageFor(v => v.StudentId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Attendance, "Attandance")
+        <br />
+        @Html.TextBoxFor(d => d.Attendance, null, new { @Value = "0" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Attendance, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.ClassTest, "Class Test")
+        <br />
+        @Html.TextBoxFor(d => d.ClassTest, null, new { @Value = "0.0" })
+        <br />
+        @Html.ValidationMessageFor(v => v.ClassTest, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Assignement, "Assignment")
+        <br />
+        @Html.TextBoxFor(d => d.Assignement, null, new { @Value = "0.0" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Assignement, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.MidTerm, "Mid Term")
+        <br />
+        @Html.TextBoxFor(d => d.MidTerm, null, new { @Value = "0.0" })
+        <br />
+        @Html.ValidationMessageFor(v => v.MidTerm, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Upload" />
+        <br />
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $("#CourseId").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#StudentId").empty();
+            $("#StudentId").append('<option value="">--Select Student--</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudent", "Result")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#StudentId").empty();
+                    $("#StudentId").append('<option value="">--Select Student--</option>');
+
+                    $.each(data, function (key, value) {
+                        $("#StudentId").append('<option value=' + value.Id + '>' + value.Name + '-' + value.RegNo + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+
+        $("#Session").change(function () {
+            var courseId = $("#CourseId").val();
+            var session = $("#Session").val();
+
+            var data = courseId + "%" + session;
+
+            var json1 = { data: data };
+
+            $("#StudentId").empty();
+            $("#StudentId").append('<option value="">--Select Student--</option>');
+
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetStudent", "Result")',
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(json1),
+                success: function (data) {
+                    $("#StudentId").empty();
+                    $("#StudentId").append('<option value="">--Select Student--</option>');
+
+                    $.each(data, function (key, value) {
+                        $("#StudentId").append('<option value=' + value.Id + '>' + value.Name + '-' + value.RegNo + '</option>');
+                    });
+
+                }
+            });
+        });
+    });
+
+</script>
+

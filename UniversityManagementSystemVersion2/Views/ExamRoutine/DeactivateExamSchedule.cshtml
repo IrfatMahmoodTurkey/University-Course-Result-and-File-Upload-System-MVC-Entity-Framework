@@ -1,0 +1,58 @@
+﻿@{
+    ViewBag.Title = "Deactivate ExamSchedule";
+    ViewBag.DeactiveExamRoutineActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-trash"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Deactive Exam Schedule</li>
+</ol>
+
+<h3>Deactivate Exam Schedule</h3>
+<p>Deactivate previous entered Exam Schedule</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm("DeactivateExamSchedule", "ExamRoutine", FormMethod.Post, new { onsubmit = "return show_alert();" }))
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Exam Schedule Deavtivated Succssfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Deactivate Exam Schedule.
+            </div>
+        }
+
+        @Html.Hidden("nullData")
+        <input type="submit" value="Deactivate" />
+        <br />
+
+    }
+</div>
+
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+
+<script>
+    function show_alert() {
+        if (confirm("Do you want to Deactivate Exam Schedule?")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
+

@@ -1,0 +1,109 @@
+﻿@model UniversityManagementSystemVersion2.Models.Course
+
+@{
+    ViewBag.Title = "Save Course";
+    ViewBag.SaveCourseActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<style>
+    .error-message {
+        color: red;
+    }
+</style>
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-book"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">New Course</li>
+</ol>
+
+<h3>Save Course</h3>
+<p>Save new course on server</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Course Saved Successfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Save Course Failed.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Exists!</strong> Course Code or Name Exists.
+            </div>
+        }
+        else if (ViewBag.Response == 4)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Fill up all fields correctly.
+            </div>
+        }
+
+        @Html.LabelFor(l => l.Code, "Course Code")
+        <br />
+        @Html.TextBoxFor(t => t.Code, null, new {placeholder="Enter Course Code"})
+        <br />
+        @Html.ValidationMessageFor(v => v.Code, null, new {@class="error-message"})
+        <br />
+
+        @Html.LabelFor(l => l.Name, "Course Name")
+        <br />
+        @Html.TextBoxFor(t => t.Name, null, new { placeholder = "Enter Course Name" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Name, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Credit, "Credit")
+        <br />
+        @Html.TextBoxFor(t => t.Credit, null, new { placeholder = "Enter Course Credit" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Credit, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.Description, "Description")
+        <br />
+        @Html.TextBoxFor(t => t.Description, null, new { placeholder = "Enter Course Description" })
+        <br />
+        @Html.ValidationMessageFor(v => v.Description, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.DepartmentId, "Department")
+        <br />
+        @Html.DropDownListFor(t => t.DepartmentId, new SelectList(ViewBag.Departments, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.DepartmentId, null, new { @class = "error-message" })
+        <br />
+
+        @Html.LabelFor(l => l.SemesterId, "Semester")
+        <br />
+        @Html.DropDownListFor(t => t.SemesterId, new SelectList(ViewBag.Semesters, "Value", "Text"))
+        <br />
+        @Html.ValidationMessageFor(v => v.SemesterId, null, new { @class = "error-message" })
+        <br />
+
+        <input type="submit" value="Save" />
+
+    }
+</div>
+
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="~/Scripts/jquery.validate.min.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+

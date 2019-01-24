@@ -1,0 +1,75 @@
+﻿@model UniversityManagementSystemVersion2.Models.ViewModels.StudentViewModel
+
+@{
+    ViewBag.Title = "Student Details";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-table"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">View Student Details</li>
+</ol>
+
+<h3>View Student Details</h3>
+<p>View Specific Student Details</p>
+<hr />
+
+<div style="text-align: center">
+    <img style="border-radius: 50%" src="@ViewBag.ProfilePicture" height="200px" width="200px" />
+    <br />
+</div>
+
+<div class="form-body">
+    @Html.LabelFor(l => l.RegNo)
+    <br />
+    @Html.TextBoxFor(t => t.RegNo, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Name)
+    <br />
+    @Html.TextBoxFor(t => t.Name, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Email)
+    <br />
+    @Html.TextBoxFor(t => t.Email, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.ContactNo)
+    <br />
+    @Html.TextBoxFor(t => t.ContactNo, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Address)
+    <br />
+    @Html.TextBoxFor(t => t.Address, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.DepartmentName)
+    <br />
+    @Html.TextBoxFor(t => t.DepartmentName, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.Date)
+    <br />
+    @Html.TextBoxFor(t => t.Date, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.ActionBy)
+    <br />
+    @Html.TextBoxFor(t => t.ActionBy, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.ActionDone)
+    <br />
+    @Html.TextBoxFor(t => t.ActionDone, null, new { disabled = "disabled" })
+    <br />
+
+    @Html.LabelFor(l => l.ActionTime)
+    <br />
+    @Html.TextBoxFor(t => t.ActionTime, null, new { disabled = "disabled" })
+    <br />
+</div>

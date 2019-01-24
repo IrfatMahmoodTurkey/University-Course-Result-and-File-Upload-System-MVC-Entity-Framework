@@ -1,0 +1,69 @@
+﻿@model UniversityManagementSystemVersion2.Models.EnrollState
+
+@{
+    ViewBag.Title = "Enroll State";
+    ViewBag.EnrollStateActive = "active";
+    Layout = "~/Views/Shared/Admin_Master_Page.cshtml";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <i class="fas fa-toggle-on"></i>
+        <a href="@Url.Action("AdminIndex", "Home")">Admin</a>
+    </li>
+    <li class="breadcrumb-item active">Enroll State</li>
+</ol>
+
+
+<h3>Enroll State</h3>
+<p>Enable or Disable Student Course Enrollment</p>
+<hr />
+
+<div class="form-body">
+    @using (Html.BeginForm())
+    {
+        <label>Can Enable?:</label>
+        <br />
+        <input type="text" disabled="disabled" value="@ViewBag.EnrollEnable" />
+        <br />
+        
+        
+        <label>Current State:</label>
+        <br />
+        <input type="text" disabled="disabled" value="@ViewBag.State" />
+        <br />
+
+        if (ViewBag.Response == 1)
+        {
+            <div class="alert alert-success alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Success!</strong> Enroll State Changed Succssfully.
+            </div>
+        }
+        else if (ViewBag.Response == 0)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Failed to Change Enroll State.
+            </div>
+        }
+        else if (ViewBag.Response == 2)
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                <strong>Failed!</strong> Can not Enable Enroll from 28 date.
+            </div>
+        }
+
+        @Html.RadioButtonFor(r => r.State, "Enabled")
+        <label>Enable</label>
+
+        @Html.RadioButtonFor(r => r.State, "Disabled")
+        <label>Disable</label>
+        <br />
+
+        <input type="submit" value="Change State" />
+        <br />
+
+    }
+</div>
